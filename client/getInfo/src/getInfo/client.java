@@ -1,30 +1,23 @@
 package getInfo;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import java.io.IOException;
-import java.util.Scanner;
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class client {
 	public static void main(String[] args) throws
-	ClientProtocolException, IOException, JSONException {
+	ClientProtocolException, JSONException {
 		// TODO Auto-generated method stub
-		startClient();
+		connect2Server("106.10.54.51", "18080");
 	}
 	
-	public static void startClient() {
-		String ip;	
-		String port;		
-		
-		ip = "106.10.54.51";
-		port = "18080";
+	public static JSONObject connect2Server(String ip, String port) {	
 		
 //		while(true) {
 			handler client = new handler(ip, port);
-			client.getInfo();
+			JSONObject got = client.getInfo();
+			System.out.println(got);
+			return got;
 			/*
 			try {
 				Thread.sleep(3000);

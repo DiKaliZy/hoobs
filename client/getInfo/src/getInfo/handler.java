@@ -1,20 +1,11 @@
 package getInfo;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-
-import org.apache.http.client.ClientProtocolException;
-import org.json.JSONException;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class handler {
 	private static String ip;
@@ -27,7 +18,7 @@ public class handler {
 		//this.where = where;
 	}
     	
-    public static void getInfo(){
+    public static JSONObject getInfo(){
         
         try {
             String uri = "http://" + ip + ":" + port + "/info";
@@ -57,11 +48,9 @@ public class handler {
                 Float temper = tempHumid.getFloat("celsius");
                 Float humid = tempHumid.getFloat("humid");
                 JSONArray macs = (JSONArray)json.get("macAddresses");
-                //message = (JSONObject)message.get("result");
-                //String transle = message.get("translatedText").toString();
-                //System.out.println("번역 결과 : "+transle+"\n");
-				
+                
             	System.out.println(temper +"//" + humid + "//" + macs );
+            	return json;
             } else if(responseCode==404) {   // 에러 발생
                
             	//JSONObject json = new JSONObject(output);
@@ -72,14 +61,18 @@ public class handler {
             	
             	System.out.println("오류 발생");// + errmsg);
             	//System.out.println("\t"+errcoment+"\n");
+            	return null;
             } else {
             	//TODO Interner server error
             	System.out.println("오류 발생: \tInternal server errors\n");
+            	return null;
             }
             
         } catch (Exception e) {
             System.out.println(e);
+            return null;
         }
+		
         
     }
 }
